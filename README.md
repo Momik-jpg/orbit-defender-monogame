@@ -1,4 +1,4 @@
-# Projekt 10 - Orbit Defender (MonoGame)
+# Projekt - Orbit Defender (MonoGame)
 
 ## Kurz erklärt
 Orbit Defender ist mein grösstes C#-Game im Portfolio.  
