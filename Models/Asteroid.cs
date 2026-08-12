@@ -23,10 +23,14 @@ public sealed class Asteroid
         Position += Velocity * deltaSeconds;
     }
 
-    public bool IsOutOfBounds(Rectangle playBounds)
+    public bool HasPassedBottom(Rectangle playBounds)
     {
-        return Position.Y - Size > playBounds.Bottom + 10
-            || Position.X + Size < playBounds.Left - 20
+        return Position.Y - Size > playBounds.Bottom + 10;
+    }
+
+    public bool HasLeftHorizontalBounds(Rectangle playBounds)
+    {
+        return Position.X + Size < playBounds.Left - 20
             || Position.X - Size > playBounds.Right + 20;
     }
 }

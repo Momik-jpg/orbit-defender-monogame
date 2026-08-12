@@ -281,10 +281,16 @@ public sealed class OrbitDefenderGame : Game
             var asteroid = _asteroids[index];
             asteroid.Update(deltaSeconds);
 
-            if (asteroid.IsOutOfBounds(playBounds))
+            if (asteroid.HasPassedBottom(playBounds))
             {
                 _asteroids.RemoveAt(index);
                 _session.RemoveLife();
+                continue;
+            }
+
+            if (asteroid.HasLeftHorizontalBounds(playBounds))
+            {
+                _asteroids.RemoveAt(index);
                 continue;
             }
 
@@ -295,12 +301,13 @@ public sealed class OrbitDefenderGame : Game
             }
         }
 
-        ResolveShotCollisions();
-
         if (_session.IsGameOver)
         {
             HandleGameOver();
+            return;
         }
+
+        ResolveShotCollisions();
     }
 
     private void ResolveShotCollisions()

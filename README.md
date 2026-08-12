@@ -1,4 +1,4 @@
-# Projekt - Orbit Defender (MonoGame)
+# Orbit Defender
 
 ## Kurz erklärt
 Orbit Defender ist mein grösstes C#-Game im Portfolio.  
@@ -13,6 +13,7 @@ Ziel war, saubere Architektur, Spielmechanik und gute Bedienung in einem grösse
 - Kollisionen (`Player <-> Asteroid`, `Laser <-> Asteroid`)
 - Namenseingabe für personalisierte Highscores
 - persistente Top-10-Highscores als JSON
+- atomare Highscore-Speicherung ohne falsche Erfolgsmeldung
 
 ## Projektaufbau (OOP)
 ```text
@@ -33,13 +34,23 @@ OrbitDefenderGame.cs
    - .NET 8 SDK
    - OpenGL-fähige Umgebung (MonoGame DesktopGL)
 2. Im Projektordner ausführen:
-   - `dotnet restore`
-   - `dotnet run`
+
+```powershell
+dotnet restore
+dotnet run
+```
+
+## Tests
+
+```powershell
+dotnet test tests/OrbitDefender.Tests/OrbitDefender.Tests.csproj
+```
 
 ## Steuerung
 - Bewegung: `WASD` oder Pfeiltasten
 - Schiessen: `SPACE`
-- Pause/Fortsetzen: `P` oder `ENTER`
+- Pause: `P`
+- Fortsetzen: `P` oder `ENTER`
 - Neustart nach Game Over: `ENTER` oder `R`
 - Zurück ins Menü: `ESC`
 

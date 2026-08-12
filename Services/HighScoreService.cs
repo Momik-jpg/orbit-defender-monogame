@@ -15,13 +15,11 @@ public sealed class HighScoreService : IHighScoreService
 
     public HighScoreService(string? filePath = null)
     {
-        var storageDirectory = Path.Combine(
+        _filePath = filePath ?? Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "AndrinPortfolio",
-            "OrbitDefender");
-
-        Directory.CreateDirectory(storageDirectory);
-        _filePath = filePath ?? Path.Combine(storageDirectory, "highscores.json");
+            "OrbitDefender",
+            "highscores.json");
     }
 
     public IReadOnlyList<HighScoreEntry> Load()
@@ -69,7 +67,10 @@ public sealed class HighScoreService : IHighScoreService
             .Take(GameSettings.MaxHighScores)
             .ToList();
 
-        Save(ranked);
+        if (!Save(ranked))
+        {
+            return false;
+        }
 
         return ranked.Any(item =>
             item.PlayerName == newEntry.PlayerName
@@ -87,16 +88,33 @@ public sealed class HighScoreService : IHighScoreService
             .ThenByDescending(entry => entry.CreatedAtUtc);
     }
 
-    private void Save(List<HighScoreEntry> entries)
+    private bool Save(List<HighScoreEntry> entries)
     {
+        string? temporaryPath = null;
         try
         {
+            var directory = Path.GetDirectoryName(_filePath);
+            if (!string.IsNullOrWhiteSpace(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             var json = JsonSerializer.Serialize(entries, _jsonOptions);
-            File.WriteAllText(_filePath, json);
+            temporaryPath = $"{_filePath}.{Guid.NewGuid():N}.tmp";
+            File.WriteAllText(temporaryPath, json);
+            File.Move(temporaryPath, _filePath, overwrite: true);
+            return true;
         }
         catch
         {
-            // Fails silently to avoid crashing the game on local file permission issues.
+            return false;
+        }
+        finally
+        {
+            if (temporaryPath is not null)
+            {
+                File.Delete(temporaryPath);
+            }
         }
     }
 }
