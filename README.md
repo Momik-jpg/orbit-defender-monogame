@@ -1,5 +1,7 @@
 # Orbit Defender
 
+[![CI](https://github.com/Momik-jpg/orbit-defender-monogame/actions/workflows/ci.yml/badge.svg)](https://github.com/Momik-jpg/orbit-defender-monogame/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 ## Kurz erklärt
 Orbit Defender ist mein grösstes C#-Game im Portfolio.  
 Ziel war, saubere Architektur, Spielmechanik und gute Bedienung in einem grösseren Projekt zu verbinden.
