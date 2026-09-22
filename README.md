@@ -31,6 +31,20 @@ Services/
 OrbitDefenderGame.cs
 ```
 
+## Architektur
+
+`OrbitDefenderGame` koordiniert die Spielsitzung und die klar getrennten Dienste.
+
+```mermaid
+flowchart TD
+    Game["OrbitDefenderGame"] --> Session["GameSession"]
+    Game --> Input["InputService"]
+    Game --> Spawn["SpawnService"]
+    Game --> Collision["CollisionService"]
+    Game --> Scores["HighScoreService"]
+    Scores --> File[("Top-10-Highscores · JSON")]
+```
+
 ## Start
 1. Voraussetzungen:
    - .NET 8 SDK
