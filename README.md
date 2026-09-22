@@ -62,3 +62,12 @@ dotnet test tests/OrbitDefender.Tests/OrbitDefender.Tests.csproj
 
 ## Warum im Portfolio?
 Orbit Defender zeigt, dass ich OOP-Strukturen nicht nur für Business-Apps, sondern auch für interaktive Echtzeit-Anwendungen einsetzen kann.
+
+
+## Mein Beitrag
+
+Ich habe die Spielmechanik, den Game Loop, die Service-Struktur, die Kollisionslogik und die persistente Highscore-Verwaltung umgesetzt.
+
+## Lizenz
+
+MIT – siehe [LICENSE](LICENSE).
