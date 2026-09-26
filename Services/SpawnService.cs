@@ -6,7 +6,12 @@ namespace OrbitDefender.Services;
 
 public sealed class SpawnService : ISpawnService
 {
-    private readonly Random _random = new();
+    private readonly Random _random;
+
+    public SpawnService(Random? random = null)
+    {
+        _random = random ?? new Random();
+    }
 
     public Asteroid CreateAsteroid(GameSession session, Rectangle playBounds)
     {
