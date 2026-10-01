@@ -58,6 +58,11 @@ dotnet run
 
 ## Tests
 
+Der Spawn-Service akzeptiert optional einen `Random` mit festem Seed.
+Die Tests prüfen reproduzierbare Asteroiden, Spawn-Grenzen, Level-Skalierung
+und die Erzeugung sowie Wiederverwendung von Sternen ohne Spielfenster.
+Im normalen Spiel bleibt die Zufallsquelle automatisch erzeugt.
+
 ```powershell
 dotnet test tests/OrbitDefender.Tests/OrbitDefender.Tests.csproj
 ```
