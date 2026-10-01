@@ -35,7 +35,8 @@ public sealed class HighScoreService : IHighScoreService
         {
             var rawJson = File.ReadAllText(_filePath);
             var loaded = JsonSerializer.Deserialize<List<HighScoreEntry>>(rawJson, _jsonOptions);
-            if (loaded is null || loaded.Any(entry => entry is null))
+            if (loaded is null || loaded.Any(entry =>
+                entry is null || entry.Score <= 0 || string.IsNullOrWhiteSpace(entry.PlayerName)))
             {
                 return false;
             }
