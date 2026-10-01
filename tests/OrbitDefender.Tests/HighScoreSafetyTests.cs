@@ -15,6 +15,10 @@ public sealed class HighScoreSafetyTests : IDisposable
     [InlineData("")]
     [InlineData("null")]
     [InlineData("[null]")]
+    [InlineData("[{\"PlayerName\":\"Pilot\",\"Score\":0}]")]
+    [InlineData("[{\"PlayerName\":\"Pilot\",\"Score\":-1}]")]
+    [InlineData("[{\"PlayerName\":\"   \",\"Score\":100}]")]
+    [InlineData("[{\"PlayerName\":\"First\",\"Score\":200},{\"PlayerName\":null,\"Score\":100}]")]
     public void Record_WhenDataIsInvalid_PreservesOriginalFile(string original)
     {
         File.WriteAllText(FilePath, original);
