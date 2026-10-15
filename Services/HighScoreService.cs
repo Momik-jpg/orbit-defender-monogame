@@ -24,22 +24,37 @@ public sealed class HighScoreService : IHighScoreService
 
     public IReadOnlyList<HighScoreEntry> Load()
     {
-        if (!File.Exists(_filePath))
-        {
-            return new List<HighScoreEntry>();
-        }
+        TryLoad(out var entries);
+        return entries;
+    }
 
+    private bool TryLoad(out List<HighScoreEntry> entries)
+    {
+        entries = new List<HighScoreEntry>();
         try
         {
             var rawJson = File.ReadAllText(_filePath);
-            var entries = JsonSerializer.Deserialize<List<HighScoreEntry>>(rawJson, _jsonOptions)
-                ?? new List<HighScoreEntry>();
+            var loaded = JsonSerializer.Deserialize<List<HighScoreEntry>>(rawJson, _jsonOptions);
+            if (loaded is null || loaded.Any(entry =>
+                entry is null || entry.Score <= 0 || string.IsNullOrWhiteSpace(entry.PlayerName)))
+            {
+                return false;
+            }
 
-            return Normalize(entries).ToList();
+            entries = Normalize(loaded).ToList();
+            return true;
+        }
+        catch (FileNotFoundException)
+        {
+            return true;
+        }
+        catch (DirectoryNotFoundException)
+        {
+            return true;
         }
         catch
         {
-            return new List<HighScoreEntry>();
+            return false;
         }
     }
 
@@ -51,7 +66,10 @@ public sealed class HighScoreService : IHighScoreService
         }
 
         var normalizedName = string.IsNullOrWhiteSpace(playerName) ? GameSettings.DefaultPilotName : playerName.Trim();
-        var existing = Load().ToList();
+        if (!TryLoad(out var existing))
+        {
+            return false;
+        }
 
         var newEntry = new HighScoreEntry
         {
